@@ -25,6 +25,8 @@
 \usepackage{multicol}        % used for the two-column index
 \usepackage[bottom]{footmisc}% places footnotes at page bottom
 \usepackage{minted}
+\usepackage{lineno} % line numbers
+\linenumbers
 
 % see the list of further useful packages
 % in the Reference Guide
@@ -164,7 +166,7 @@ package~\citep{baumdicker2022efficient}.
 Thirdly, the data structure that \msprime\ uses
 to represent results,
 the \emph{succinct tree sequence},
-is a concise and efficient encoding 
+is a concise and efficient encoding
 for Ancestral Recombination Graphs~\citep{wong2024general}
 (see the Discussion),
 and is the basis of the \tskit\ library used by \msprime.
@@ -172,7 +174,7 @@ Using \tskit\ provides many benefits, including access to efficient
 data processing algorithms~\citep{ralph2020efficiently,lehmann2025on},
 the ability to interoperate with forwards-time
 simulators~\citep{kelleher2018efficient,haller2018tree},
-and access to a diverse ecosystem of downstream 
+and access to a diverse ecosystem of downstream
 utilities~\cite{fan2022genealogical,nowbandegani2023extremely,tsambos2023link,
 tagami2024tstrait,fritze2024forest}.
 Finally, \msprime's primary interface is through a simple but powerful Python
@@ -468,14 +470,14 @@ As this code chunk suggests, simulating mutations on a tree sequence is a two-st
 First, we simulate the genealogy using \texttt{sim\_ancestry} and store the resulting
 tree sequence in the variable \texttt{ts}. Note that we specified a \texttt{sequence\_length} parameter;
 this determines the number of discrete sites in the sequence at which mutation
-may occur. After that, we simulate mutations on this tree sequence 
-using the \texttt{sim\_mutations} function, which takes a 
+may occur. After that, we simulate mutations on this tree sequence
+using the \texttt{sim\_mutations} function, which takes a
 \texttt{rate} parameter; this
-defines the per-site per-generation mutation rate. 
+defines the per-site per-generation mutation rate.
 Note that we deliberately overwrite the \texttt{ts} variable
-with the new tree sequence object containing 
+with the new tree sequence object containing
 mutations to save memory, as otherwise we would
-store the tree sequence twice---once without mutations and once with mutations. 
+store the tree sequence twice---once without mutations and once with mutations.
 We then
 select the first (and only) tree in the tree sequence and plot it using the \texttt{draw\_svg()}
 method. The tree produced by this code chunk is shown in Figure~\ref{fig-tree-mutations}.
@@ -635,8 +637,8 @@ biological interpretation of effective population size.
 The \texttt{sim\_ancestry} function accepts a ploidy parameter, which defines
 the number of ``genomes'' per individual~\cite{wong2024general}.
 In \msprime, this has two effects: it determines the number of nodes
-per sample, and how time is scaled. It is important to note that 
-the grouping of sample nodes into individuals under coalescent 
+per sample, and how time is scaled. It is important to note that
+the grouping of sample nodes into individuals under coalescent
 models in \msprime\ is arbitrary.
 
 By default, \emph{population\_size=1} in \msprime, which is equivalent to measuring
@@ -670,7 +672,7 @@ again that time and growth rate are measured in \emph{generations},
 not coalescent units.)
 
 In \msprime, the initial size and growth rate for a particular population
-are specified using a \texttt{Demography} object 
+are specified using a \texttt{Demography} object
 (describing the different populations; see Section~\ref{population-structure})
 which is then provided to the \texttt{sim\_ancestry} function. When providing a
 \texttt{Demography} object, setting a \texttt{population\_size} to
@@ -722,7 +724,7 @@ simulate populations in isolation,
 using the  \texttt{initial\_size} and
 \texttt{growth\_rate} parameters to specify the per-population
 values.
-Here, we set up a simple model of two constant sized populations 
+Here, we set up a simple model of two constant sized populations
 with $N_e=1$ and $2$ respectively,
 with asymmetric
 migration (i.e.\ a continent-island model):
@@ -730,16 +732,16 @@ migration (i.e.\ a continent-island model):
     demography = msprime.Demography.isolated_model([1, 2])
     demography.set_migration_rate(source=0, dest=1, rate=0.1)
 \end{pythoncode}
-It is important to note that the \texttt{source} and 
-\texttt{dest} populations are in the \emph{backwards time} 
-sense in \msprime. 
-In this example, we have a constant rate of 
+It is important to note that the \texttt{source} and
+\texttt{dest} populations are in the \emph{backwards time}
+sense in \msprime.
+In this example, we have a constant rate of
 of 0.1 lineages per generation migrating from population
 \texttt{source} to \texttt{dest}, backwards in time.
 Note that this implies that (forwards in time) \emph{individuals}
 would migrate from population \texttt{dest} to \texttt{source},
 and that the rate depends on the current population sizes.
-Please see the online documentation 
+Please see the online documentation
 for full details on these subtle and important points.
 
 \runinhead{Symmetric Island model}\label{island-model}
@@ -853,7 +855,7 @@ demes:
 \end{minted}
 \end{footnotesize}
 
-This YAML file can be loaded into Python using the \texttt{demes} library and 
+This YAML file can be loaded into Python using the \texttt{demes} library and
 visualised using the \texttt{demesdraw} package:
 
 \begin{figure}[t]
@@ -890,7 +892,7 @@ ts = msprime.sim_ancestry(
     {"A":1, "B":1, "ADMIX":1},
     demography=demography)
 \end{pythoncode}
-This code block is 
+This code block is
 equivalent to running the earlier example defined using the \msprime\
 demography API.
 
@@ -970,7 +972,7 @@ defines the length of the genomic region to be simulated, and
 \texttt{recombination\_rate}, which defines the rate of recombination
 per base per generation .
 For this example, we defined a sequence length of 100kb, a recombination rate of
-\(10^{-8}\) per base per generation and an $N_e$ of $10^4$ 
+\(10^{-8}\) per base per generation and an $N_e$ of $10^4$
 (corresponding---very roughly---to human parameters).
 The result of this particular simulation is a
 \emph{tree sequence} that contains 135 distinct trees. Other replicate
@@ -1007,12 +1009,12 @@ a sample across a 100kb region.}
 This code generates the plot in Figure~\ref{fig:tree_tmrcas}, showing the time
 of the MRCA of the sample for each tree across the sequence. We find the
 \(T_{MRCA}\) as before, and plot this against the left coordinate of the
-genomic interval that each tree covers. 
+genomic interval that each tree covers.
 
 The example given here is a very basic instance of simulating
-recombination in \msprime,  and other complexities such as 
-variable rates of recombination and gene 
-conversion~\citep{wiuf2000coalescent} can be incorporated. 
+recombination in \msprime,  and other complexities such as
+variable rates of recombination and gene
+conversion~\citep{wiuf2000coalescent} can be incorporated.
 See the online documentation for full details.
 
 % A full description of \tskit\ tree
@@ -1313,7 +1315,7 @@ ts = msprime.sim_ancestry(
     samples={0: 50_000, 1: 50_000},
     demography=demography, recombination_rate=1e-8,
     sequence_length=10*10**6, random_seed=3)
-ts = msprime.sim_mutations(ts, rate=1e-8, 
+ts = msprime.sim_mutations(ts, rate=1e-8,
     random_seed=7, discrete_genome=False)
 print((ts.num_trees, ts.num_sites))
 
@@ -1324,7 +1326,7 @@ This simulation required about 20 seconds to complete. Note that we set the
 \texttt{discrete\_genome} parameter of \texttt{sim\_mutations} to
 \texttt{False} to simulate mutations using an infinite sites model.
 This is convenient for the purposes of this chapter as we can assume
-that all sites have a single mutation, simplifying logic 
+that all sites have a single mutation, simplifying logic
 and comparisons with analytic results. As many
 of the operations described here are implemented in full generality
 within \tskit\, the code snippets provided here are mainly for pedagogical
@@ -1376,7 +1378,7 @@ In this example we create a function \texttt{ibd\_segments} that returns
 a NumPy array of the lengths of IBD segments for a given pair of
 samples, \texttt{a} and \texttt{b}. It works simply by computing the
 MRCA for the samples at the left hand side of the sequence and then,
-moving rightwards, records a segment each time the MRCA changes. Having 
+moving rightwards, records a segment each time the MRCA changes. Having
 applied \texttt{ibd\_segments} to the tree sequence for a sample from three populations (simulated in previous section),
 we can plot the distribution of tract lengths for samples 0 and 1 (which are
 both in population 0), and a pair of
@@ -1594,7 +1596,7 @@ CPU times: user 1.75 s, sys: 36 ms, total: 1.79 s
 A powerful property of the tree sequence representation is that we can
 efficiently find the differences between adjacent trees. This is very
 useful when we have some value that we wish to compute that changes in a
-simple way from one tree to the next in a tree sequence. 
+simple way from one tree to the next in a tree sequence.
 The \texttt{edge\_diffs} iterator provides us
 with the information that we need to perform such incremental
 calculations. Here we use it to keep a running track of the total branch
@@ -2036,7 +2038,7 @@ print(truth[0])
      [ 8.  1.  0.]]
 \end{pythoncode}
 
-One could base inference on the bSFS \citep{Lohse2016, Beeravolu2017, HahnMishr2025}, 
+One could base inference on the bSFS \citep{Lohse2016, Beeravolu2017, HahnMishr2025},
 but we will for the sake of simplicity use a simpler (and lossy)
 summary of the data: the average jSFS across loci. For analyses based on
 SNPs, it is convenient to normalise the jSFS by the total number of
@@ -2184,7 +2186,7 @@ methods~\cite{speidel2019method,kelleher2019inferring,
 zhang2023biobank,gunnarsson2024scalable},
 their potential combination~\citep{bisschop2025likelihoods},
 along with important auxiliary inference tasks such as node
-dating~\cite{wohns2022unified,deng2025general} 
+dating~\cite{wohns2022unified,deng2025general}
 and the calculation of ARG based summaries~\cite{ignatieva2025length}.
 Sophisticated simulation tools, however, have also played an important
 role. The ability to generate truth data at scale
