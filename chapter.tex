@@ -1583,8 +1583,8 @@ for tree in ts.trees():
   for site in tree.sites():
     # Only works for infinite sites mutations.
     assert len(site.mutations) == 1
-    mutation = site.mutations[0]
-    if tree.num_samples(mutation.node)/ts.num_samples<threshold:
+    mut = site.mutations[0]
+    if tree.num_samples(mut.node) / ts.num_samples < threshold:
         num_rare += 1
 print(num_rare)
 >>> 83757
