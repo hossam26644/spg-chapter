@@ -1981,7 +1981,7 @@ constant scaled rate of \(M\) migrants per generation.
 
 The function \texttt{run\_sims} simulates a dataset consisting of a
 specified number of loci (\texttt{num\_loci}) given a migration rate
-\(M\). We generate a single dataset of 50 loci assuming a migration rate
+\(M\). We generate a single dataset of 200 loci assuming a migration rate
 \(M=0.3\) migrants per generation, which we will use as a (pseudo)observed dataset in the ABC
 implementation.
 
@@ -2038,7 +2038,7 @@ print(truth[0])
      [ 8.  1.  0.]]
 \end{pythoncode}
 
-One could base inference on the bSFS \citep{Lohse2016, Beeravolu2017, HahnMishr2025},
+One could base inference on the bSFS \citep{Lohse2016, Beeravolu2017, HahnMishr2025},%https://academic.oup.com/genetics/advance-article/doi/10.1093/genetics/iyaf108/8157390
 but we will for the sake of simplicity use a simpler (and lossy)
 summary of the data: the average jSFS across loci. For analyses based on
 SNPs, it is convenient to normalise the jSFS by the total number of
